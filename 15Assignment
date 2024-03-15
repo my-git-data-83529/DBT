@@ -1,0 +1,53 @@
+1) 
+KD4_Shrutika_83529>create table Multicast as select * from SALESPEOPLE where Snum in (select Snum from CUSTOMERS group by Snum having count(Snum)>1);
+Query OK, 2 rows affected, 1 warning (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 1
+
+KD4_Shrutika_83529>select * from Multicast;
++------+--------+--------+------+
+| Snum | Sname  | City   | Comm |
++------+--------+--------+------+
+| 1001 | Peel   | London | 0.12 |
+| 1004 | Motika | London | 0.11 |
++------+--------+--------+------+
+2 rows in set (0.01 sec)
+
+
+2)
+KD4_Shrutika_83529>delete from CUSTOMERS where Cnum not in (select abcd.Cnum from (select C1.Cnum from CUSTOMERS C1,ORDERS O1 where C1.Cnum=O1.Cnum)as abcd);
+Query OK, 1 row affected (0.02 sec)
+
+KD4_Shrutika_83529>SELECT * FROM CUSTOMERS;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffaman | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1004 |
+| 2004 | Grass    | Berlin   |    300 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+6 rows in set (0.00 sec)
+
+
+3)
+KD4_Shrutika_83529>update SALESPEOPLE set Comm=Comm+0.2 where Snum =(select distinct Snum from ORDERS where Amt>3000);
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+KD4_Shrutika_83529>select * from SALESPEOPLE;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.33 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
+| 1100 | Blanco  | San Jose  | NULL |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+
+
