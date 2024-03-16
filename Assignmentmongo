@@ -1,0 +1,135 @@
+1)
+sudo apt-get install gnupg curl
+
+2)
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+3)
+sudo apt-get update
+
+4)
+sudo apt-get install -y mongodb-org
+
+5)
+sudo systemctl start mongod
+sudo systemctl daemon-reload
+sudo systemctl status mongod
+sudo systemctl enable mongod
+sudo systemctl stop mongod
+sudo systemctl restart mongod
+
+6)
+test> show dbs
+admin   40.00 KiB
+config  60.00 KiB
+local   72.00 KiB
+
+7)
+test> use cdac
+switched to db cdac
+
+8)
+cdac> show collections;
+
+9)
+cdac> db.createCollection("library")
+{ ok: 1 }
+
+10)
+cdac> db.library.insert({title:'MongoDB programming',author:'Sameer',likes:100})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65f56405e01e7ed3b4db83b0') }
+}
+
+11)
+dac> db.library.find()
+[
+  {
+    _id: ObjectId('65f56405e01e7ed3b4db83b0'),
+    title: 'MongoDB programming',
+    author: 'Sameer',
+    likes: 100
+  }
+]
+
+12)
+cdac> db.library.insert({title:'MySOL programming',authors:['Jack','Jill'],likes:200})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65f56510e01e7ed3b4db83b1') }
+}
+
+13)
+cdac> db.library.find()
+[
+  {
+    _id: ObjectId('65f56405e01e7ed3b4db83b0'),
+    title: 'MongoDB programming',
+    author: 'Sameer',
+    likes: 100
+  },
+  {
+    _id: ObjectId('65f56510e01e7ed3b4db83b1'),
+    title: 'MySOL programming',
+    authors: [ 'Jack', 'Jill' ],
+    likes: 200
+  }
+]
+
+14)
+cdac> db.library.findOne()
+{
+  _id: ObjectId('65f56405e01e7ed3b4db83b0'),
+  title: 'MongoDB programming',
+  author: 'Sameer',
+  likes: 100
+}
+
+15)
+cdac> db.library.find().pretty()
+[
+  {
+    _id: ObjectId('65f56405e01e7ed3b4db83b0'),
+    title: 'MongoDB programming',
+    author: 'Sameer',
+    likes: 100
+  },
+  {
+    _id: ObjectId('65f56510e01e7ed3b4db83b1'),
+    title: 'MySOL programming',
+    authors: [ 'Jack', 'Jill' ],
+    likes: 200
+  }
+]
+
+16)
+cdac> db.library.update({author: 'Sameer'},{$set:{author: 'Sameer Dehadrai'}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+17)
+cdac> db.library.remove({likes:100})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 1 }
+
+18)
+cdac> db.library.drop()
+true
+
+19)
+cdac> db.dropDatabase()
+{ ok: 1, dropped: 'cdac' }
+
+20)
+cdac> exit
+sunbeam@Shrutika:~$ 
+
+
